@@ -1,0 +1,37 @@
+Python’s getattr function is used to fetch an attribute from an object, using a string object instead of an identifier to identify the attribute. In other words, the following two statements are equivalent:
+
+value = obj.attribute
+value = getattr(obj, "attribute")
+If the attribute exists, the corresponding value is returned. If the attribute does not exist, you get an AttributeError exception instead.
+
+The getattr function can be used on any object that supports dotted notation (by implementing the __getattr__ method). This includes class objects, modules, and even function objects.
+
+path = getattr(sys, "path")
+doc = getattr(len, "__doc__")
+The getattr function uses the same lookup rules as ordinary attribute access, and you can use it both with ordinary attributes and methods:
+
+result = obj.method(args)
+
+func = getattr(obj, "method")
+result = func(args)
+or, in one line:
+
+result = getattr(obj, "method")(args)
+Calling both getattr and the method on the same line can make it hard to handle exceptions properly. To avoid confusing AttributeError exceptions raised by getattr with similar exceptions raised inside the method, you can use the following pattern:
+
+try:
+    func = getattr(obj, "method")
+except AttributeError:
+    ... deal with missing method ...
+else:
+    result = func(args)
+The function takes an optional default value, which is used if the attribute doesn’t exist. The following example only calls the method if it exists:
+
+func = getattr(obj, "method", None)
+if func:
+    func(args)
+Here’s a variation, which checks that the attribute is indeed a callable object before calling it.
+
+func = getattr(obj, "method", None)
+if callable(func):
+    func(args)
