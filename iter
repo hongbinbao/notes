@@ -1,6 +1,7 @@
 
 
 print type(iter([1,2,3]))                #listiterator
+print type(iter((1,2,3)))                #tupleiterator
 print type(iter(callable_method, 'stop_iteration_exception_tag')) #callable-iterator
 
 help(iter):
