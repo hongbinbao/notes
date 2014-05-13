@@ -1,0 +1,10 @@
+>>> import functools
+>>> def need_two_arguments(a,b):
+...     print a + b
+... 
+>>> no_arguments_needed = functools.partial(need_two_arguments, "Hello, ", "World!")
+>>> no_arguments_needed()
+Hello, World!
+>>> no_arguments_needed = (lambda: need_two_arguments("Hello, ", "World!"))
+>>> no_arguments_needed()
+Hello, World!
